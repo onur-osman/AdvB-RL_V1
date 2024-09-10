@@ -212,26 +212,7 @@ for episode in range(num_episodes):
         action_val_selected = np.zeros((1, num_actions))
         action_vals_cumulative = np.zeros((1, num_actions))
 
-        '''
-        for k in range(n_models):
-            model = DQN_models[k]['model']
-            action_vals_swarm = model(state.reshape(1,-1))
-            #prob_act_list[k, :], _ = boltzman(action_vals_swarm, 1)
-            prob_max[0, k] = np.max(action_vals_swarm)
-
-        model_to_use_index = np.argmax(prob_max)
-        model_to_use = DQN_models[model_to_use_index]['model']
-        action_vals_AdvNet = model_to_use(state.reshape(1, -1))
-
-        #action_val_selected[0] = prob_act_list[model_to_use_index, :]
-        #action = utils.get_action(action_vals_AdvNet, epsilon)
-        if random.random() > epsilon:
-            action = np.argmax(action_vals_AdvNet.numpy()[0])
-        else:
-            action = random.choice(np.arange(num_actions))
-
-        '''
-
+        
         #model_to_use = DQN_models[model_to_use_index]['model']
         #action_vals_AdvNet = model_to_use(state.reshape(1, -1))
 
@@ -379,7 +360,7 @@ for episode in range(num_episodes):
             for k in range(n_models):
                 model = DQN_models[k]['model']
                 action_vals_swarm = model(state_cooperative_decision.reshape(1, -1))
-                action_vals_cumulative += (DQN_models[k]['n_wins'] + 1) * np.array(action_vals_swarm)
+                action_vals_cumulative += (DQN_models[k]['n_wins']) * np.array(action_vals_swarm)
 
             action = np.argmax(action_vals_cumulative)
             state_cooperative_decision, reward, done, _, _ = env.step(action)
