@@ -218,12 +218,7 @@ for episode in range(num_episodes):
                     model = DQN_models[k]['model']
                     action_vals_swarm = model(state.reshape(1, -1))
                     action_vals_cumulative += (DQN_models[k]['n_wins']) * np.array(action_vals_swarm)
-
-                    # METHOD 7: majority decision
-                    # action_member = np.argmax(action_vals_swarm)
-                    # action_member_list.append(action_member)
-
-                #action = statistics.mode(action_member_list)
+                    
                 action = np.argmax(action_vals_cumulative)
             else:
                 action = random.choice(np.arange(num_actions))
@@ -373,17 +368,9 @@ for episode in range(num_episodes):
             for k in range(n_models):
                 model = DQN_models[k]['model']
                 action_vals_swarm = model(state_cooperative_decision.reshape(1, -1))
-                #if (DQN_models[k]['n_wins']) > 0:
-                #    action_vals_cumulative += np.array(action_vals_swarm)
+                action_vals_cumulative += (DQN_models[k]['n_wins']) * np.array(action_vals_swarm)
 
-                # METHOD 7: majority decision
-                action_member = np.argmax(action_vals_swarm)
-                action_member_list.append(action_member)
-
-            action = statistics.mode(action_member_list)
-            #action_vals_cumulative += (DQN_models[k]['n_wins'] + 1) * np.array(action_vals_swarm)
-
-            #action = np.argmax(action_vals_cumulative)
+            action = np.argmax(action_vals_cumulative)
 
             state_cooperative_decision, reward, terminate, truncate, _ = env.step(action)
             total_points_dqns_coop += reward
